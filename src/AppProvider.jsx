@@ -1,5 +1,8 @@
 import { createContext, useReducer, useState, useEffect } from "react";
 import { storeReducer } from "./StoreReducer";
+// import { useQuery } from "@tanstack/react-query";
+import { useQuery } from "convex/react";
+import { api } from "../convex/_generated/api";
 
 const AppContext = createContext();
 
@@ -20,8 +23,29 @@ const AppProvider = ({ children }) => {
     }
   }, [state.cart]);
 
+  // const fetchProducts = async () => {
+  //   const res = await fetch("/product.json");
+  //   const data = await res.json();
+
+  //   return data;
+  // };
+
+  // const {
+  //   data: products = [],
+  //   isLoading,
+  //   isError,
+  //   refetch,
+  // } = useQuery({
+  //   queryKey: ["products"],
+  //   queryFn: fetchProducts,
+  // });
+
+  const products = useQuery(api.products.getProducts);
+  console.log(products);
   return (
-    <AppContext.Provider value={{ state, dispatch, showCart, setShowCart }}>
+    <AppContext.Provider
+      value={{ state, products, dispatch, showCart, setShowCart }}
+    >
       {children}
     </AppContext.Provider>
   );

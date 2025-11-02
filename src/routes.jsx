@@ -1,4 +1,5 @@
 import MainLayout from "./layout/MainLayout";
+import Checkout from "./pages/Checkout";
 import EarPhones from "./pages/EarPhones";
 import HeadPhones from "./pages/HeadPhones";
 import Home from "./pages/Home";
@@ -28,6 +29,10 @@ const route = [
       {
         path: "/product/:id",
         element: <Product />,
+      },
+      {
+        path: "/checkout",
+        element: <Checkout />,
       },
     ],
   },
