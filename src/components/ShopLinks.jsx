@@ -21,10 +21,10 @@ const shopNav = [
 ];
 const ShopLinks = () => {
   return (
-    <nav className="inner-container  flex items-center gap-4">
+    <nav className="inner-container  flex items-center justify-center flex-col md:flex-row  gap-4">
       {shopNav.map(({ title, path, img }) => (
         <Link to={path} key={path}>
-          <div className="w-[350px] h-[204px] bg-offwhite flex flex-col items-center gap-4 justify-evenly">
+          <div className="w-[223px]  lg:w-[350px] h-[204px] bg-offwhite flex flex-col items-center gap-4 justify-evenly">
             <img
               src={img}
               alt={`${title}-image`}

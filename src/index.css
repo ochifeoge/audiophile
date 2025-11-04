@@ -158,8 +158,8 @@ p {
 }
 
 .container {
-  @apply max-w-[1440px] mx-auto;
+  @apply max-w-[1440px] mx-auto px-6;
 }
 .inner-container {
-  @apply max-w-[1110px] mx-auto my-30;
+  @apply max-w-[1110px] w-full mx-auto my-30;
 }

@@ -4,13 +4,15 @@ export const earphone = "/earphone.png";
 export const headphone = "/headphone.png";
 export const speaker = "/speaker.png";
 
-export const speakerBg = "./SpeakerBg.png";
+export const speakerBg = "/SpeakerBg.png";
 
-export const earbud = "./earbud.png";
+export const earbud = "/earbud.png";
 export const person = "/person.png";
+export const smPerson = "/personSm.png";
 
-export const speaker1 = "./speaker1.png";
-export const speaker2 = "./speaker2.png";
+export const heroimgBg = "/heroImg.png";
+export const speaker1 = "/speaker1.png";
+export const speaker2 = "/speaker2.png";
 
 export const headPhoneShowcase = [
   {

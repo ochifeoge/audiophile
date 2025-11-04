@@ -264,22 +264,24 @@ const CheckoutForm = ({ onValidityChange, onFormChange }) => {
           <div className="flex flex-col" style={{ flexBasis: "48%" }}>
             <FieldLabel label="e-Money Number" error={errors.number} />
             <Input
-              name="e-Money Number"
+              name="number"
               value={eMoneyDetails.number}
               onChange={handleEMoneyDetailsChange}
               error={errors.number}
               placeholder="2627218262"
+              type="text"
             />
           </div>
 
           <div className="flex flex-col" style={{ flexBasis: "48%" }}>
             <FieldLabel label="e-Money PIN" error={errors.pin} />
             <Input
-              name="eMoney PIN"
+              name="pin"
               value={eMoneyDetails.pin}
               onChange={handleEMoneyDetailsChange}
               error={errors.pin}
               placeholder="8674"
+              type="text"
             />
           </div>
         </div>
