@@ -36,6 +36,10 @@ const route = [
       },
     ],
   },
+  {
+    path: "/checkout",
+    element: <Checkout />,
+  },
 ];
 
 export default route;

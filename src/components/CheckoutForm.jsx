@@ -218,7 +218,7 @@ const CheckoutForm = ({ onValidityChange, onFormChange }) => {
       <section>
         <h4 className="sub-title mb-4 text-primary"> payment details</h4>
 
-        <div className="flex justify-between">
+        <div className="flex flex-col md:flex-row justify-between">
           <p className="text-sm  ">Payment Method</p>
           <div className="space-y-4">
             {/* e-money */}

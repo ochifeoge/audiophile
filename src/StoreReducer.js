@@ -1,6 +1,8 @@
-export const storeReducer = (state, action) => {
+export function storeReducer(state, action) {
   switch (action.type) {
     case "ADD_TO_CART": {
+      const item = { ...action.payload, qty: Number(action.payload.qty || 1) };
+
       const itemExists = state.cart.find(
         (item) => item.id === action.payload.id
       );
@@ -9,17 +11,15 @@ export const storeReducer = (state, action) => {
         // If item already exists, increase quantity
         return {
           ...state,
-          cart: state.cart.map((item) =>
-            item.id === action.payload.id
-              ? { ...item, qty: item.qty + 1 }
-              : item
+          cart: state.cart.map((it) =>
+            it.id === item.id ? { ...it, qty: it.qty + 1 } : it
           ),
         };
       } else {
         // If item does not exist, add it with qty: 1
         return {
           ...state,
-          cart: [...state.cart, { ...action.payload, qty: 1 }],
+          cart: [...state.cart, item],
         };
       }
     }
@@ -40,33 +40,28 @@ export const storeReducer = (state, action) => {
         cart: [],
       };
 
-    case "INCREASE_BY_ONE":
+    case "INCREASE_BY_ONE": {
+      const { id } = action.payload;
       return {
         ...state,
-        cart: state.cart.map((item) => {
-          return action.payload.id === item.id &&
-            (!item.selectedSize ||
-              item.selectedSize === action.payload.selectedSize)
-            ? {
-                ...item,
-                qty:
-                  item.qty >= item.quantity ? item.qty : action.payload.qty + 1,
-              }
-            : item;
-        }),
+        cart: state.cart.map((it) =>
+          it.id === id ? { ...it, qty: Number(it.qty || 0) + 1 } : it
+        ),
       };
-
-    case "DECREASE_BY_ONE":
+    }
+    case "DECREASE_BY_ONE": {
+      const { id } = action.payload;
       return {
         ...state,
-        cart: state.cart.map((item) => {
-          return action.payload.id === item.id &&
-            (!item.selectedSize ||
-              item.selectedSize === action.payload.selectedSize)
-            ? { ...item, qty: item.qty <= 1 ? 1 : item.qty - 1 }
-            : item;
-        }),
+        cart: state.cart
+          .map((it) =>
+            it.id === id
+              ? { ...it, qty: Math.max(0, Number(it.qty || 0) - 1) }
+              : it
+          )
+          .filter((it) => it.qty > 0),
       };
+    }
     case "CHANGE_CART_QUANTITY":
       return {
         ...state,
@@ -78,4 +73,4 @@ export const storeReducer = (state, action) => {
     default:
       return state;
   }
-};
+}

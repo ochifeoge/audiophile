@@ -1,8 +1,8 @@
 import { v } from "convex/values";
-import { action } from "./_generated/server";
+import { mutation } from "./_generated/server";
 import { Resend } from "resend";
 
-export const createOrder = action({
+export const createOrder = mutation({
   args: {
     billing: v.object({
       name: v.string(), // required
@@ -39,7 +39,7 @@ export const createOrder = action({
         createdAt: Date.now(),
       });
 
-      const resendApiKey = await ctx.env.get("RESEND_API_KEY");
+      const resendApiKey = import.meta.env.VITE_RESEND_API_KEY;
       console.log("resendkey", resendApiKey);
 
       // ✅ Now initialize Resend

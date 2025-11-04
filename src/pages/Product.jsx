@@ -11,16 +11,37 @@ import { AppContext } from "@/AppProvider";
 const Product = () => {
   const { id } = useParams();
 
-  const { dispatch } = useContext(AppContext);
+  const {
+    dispatch,
+    state: { cart },
+  } = useContext(AppContext);
   function handleAddToCart(product) {
+    const productId = product.id || id;
     const { name, image, price } = product;
 
-    console.log("cart: ", { name, id, image, price });
+    // ensure we always add a numeric qty
     dispatch({
       type: "ADD_TO_CART",
-      payload: { name, id, image, price },
+      payload: {
+        name,
+        id: productId,
+        image,
+        price: Number(price || 0),
+        qty: 1,
+      },
     });
   }
+
+  function increaseByOne() {
+    dispatch({ type: "INCREASE_BY_ONE", payload: { id } });
+  }
+  function decreaseByOne() {
+    dispatch({ type: "DECREASE_BY_ONE", payload: { id } });
+  }
+
+  const showCartQuantity = cart.find((cartItem) => cartItem.id === id)?.qty;
+
+  console.log("cart quantity :", showCartQuantity);
 
   // Fetch single product
   const product = useQuery(api.products.getProductById, {
@@ -38,9 +59,9 @@ const Product = () => {
   return (
     <>
       <div className="inner-container">
-        <div className="flex items-center justify-between mb-40">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-40">
           <div
-            className={`bg-offwhite rounded basis-[48%] 
+            className={`bg-offwhite rounded lg:basis-[48%] 
             }`}
           >
             <img
@@ -50,15 +71,19 @@ const Product = () => {
             />
           </div>
 
-          <div className="basis-[48%]  ">
+          <div className="lg:basis-[48%] max-lg:text-center ">
             <h4 className="over-line   text-primary mb-4">{"NEW product"}</h4>
             {/* {subText && (
                 )} */}
             <h1 className="mb-8">{product.name}</h1>
             <p className="mb-10">{product.description}</p>
             <p className="mb-[47px]">$ {product.price}</p>
-            <div className="flex">
-              <QuanitityInput />
+            <div className="flex gap-4 max-lg:justify-center">
+              <QuanitityInput
+                onIncrease={increaseByOne}
+                onDecrease={decreaseByOne}
+                cartQuantity={showCartQuantity}
+              />
               <Button
                 label={"ADD TO CART"}
                 onClick={() => {
@@ -70,7 +95,7 @@ const Product = () => {
         </div>
 
         {/* features */}
-        <div className="flex justify-between ">
+        <div className="flex flex-col md:flex-row gap-8 justify-between ">
           <div className="basis-[65%] space-y-8">
             <h3>FEATURES</h3>
             <p className="opacity-50">{product.features}</p>
@@ -91,9 +116,9 @@ const Product = () => {
 
         {/* related images */}
         {images.length && (
-          <div className="flex items-center gap-[30px] mt-[150px] justify-between">
-            <div className="w-1/2 flex flex-col gap-[30px]">
-              <div className=" h-[280px]">
+          <div className="flex flex-col md:flex-row items-center gap-[30px] mt-[150px] justify-between">
+            <div className="md:w-1/2 flex flex-col gap-[30px]">
+              <div className=" h-[174px] md:h-[280px]">
                 <img
                   loading="lazy"
                   className="object-cover w-full h-full"
@@ -101,7 +126,7 @@ const Product = () => {
                   alt="related image"
                 />
               </div>
-              <div className=" h-[280px]">
+              <div className=" h-[174px] md:h-[280px]">
                 <img
                   loading="lazy"
                   className="object-cover w-full h-full"
@@ -111,7 +136,7 @@ const Product = () => {
               </div>
             </div>
 
-            <div className="w-1/2 h-[592px] ">
+            <div className="md:w-1/2 h-[326px] md:h-[592px] ">
               <img
                 loading="lazy"
                 className="object-cover w-full h-full"

@@ -2,7 +2,7 @@ import { useNavigate } from "react-router";
 import CheckoutForm from "../components/CheckoutForm";
 import { useContext, useState } from "react";
 import { AppContext } from "../AppProvider";
-import { useAction } from "convex/react";
+import { useMutation } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import OrderSuccessful from "../components/OrderSuccessful";
 
@@ -19,7 +19,7 @@ const Checkout = () => {
     0
   );
 
-  const createOrder = useAction(api.orders.createOrder);
+  const createOrder = useMutation(api.orders.createOrder);
 
   async function handleCheckout() {
     if (!formData) {
@@ -75,13 +75,13 @@ const Checkout = () => {
         />
       )}
 
-      <div className="inner-container mt-[79px]">
+      <div className="inner-container mt-0 md:mt-[79px]">
         <button className="text-[15px] mb-[38px]" onClick={() => navigate(-1)}>
           Go Back
         </button>
 
-        <div className="flex gap-[30px]">
-          <div className="bg-white basis-[67%] px-0">
+        <div className="flex gap-[30px] max-md:flex-wrap">
+          <div className="bg-white basis-full md:basis-[67%] px-0">
             <h3 className="mb-[41px] p-8">checkout</h3>
             <CheckoutForm
               onValidityChange={setIsFormValid}
@@ -89,7 +89,7 @@ const Checkout = () => {
             />
           </div>
 
-          <div className="bg-white basis-[31%] p-6">
+          <div className="bg-white basis-full md:basis-[31%] p-6">
             <h4 className="mb-6">Order Summary</h4>
             <div className="flex flex-col gap-4">
               {(state.cart || []).length > 0 ? (

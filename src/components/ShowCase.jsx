@@ -6,7 +6,10 @@ const ShowCase = ({ itemsArray }) => {
   return (
     <div className="inner-container">
       {itemsArray?.map(({ name, _id, description, isNew, imageUrl }, index) => (
-        <div className="flex items-center justify-between mb-40" key={index}>
+        <div
+          className="flex flex-col lg:flex-row items-center justify-between mb-40"
+          key={index}
+        >
           <div
             className={`bg-offwhite rounded basis-[48%] ${
               (index + 1) % 2 === 0 ? "order-1" : ""
@@ -19,7 +22,7 @@ const ShowCase = ({ itemsArray }) => {
             />
           </div>
 
-          <div className="basis-[48%]  ">
+          <div className="basis-[48%] max-md:text-center  ">
             {isNew && (
               <h4 className="over-line   text-primary mb-4">{"NEW PRODUCT"}</h4>
             )}
