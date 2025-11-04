@@ -10,6 +10,7 @@
 
 import type * as convex from "../convex.js";
 import type * as files from "../files.js";
+import type * as orders from "../orders.js";
 import type * as products from "../products.js";
 
 import type {
@@ -29,6 +30,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   convex: typeof convex;
   files: typeof files;
+  orders: typeof orders;
   products: typeof products;
 }>;
 declare const fullApiWithMounts: typeof fullApi;

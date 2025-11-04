@@ -11,6 +11,7 @@ const initialState = {
 };
 const AppProvider = ({ children }) => {
   const [showCart, setShowCart] = useState(false);
+  const [orderSuccessful, setOrderSuccessful] = useState(false);
 
   const [state, dispatch] = useReducer(storeReducer, initialState);
 
@@ -44,7 +45,15 @@ const AppProvider = ({ children }) => {
   console.log(products);
   return (
     <AppContext.Provider
-      value={{ state, products, dispatch, showCart, setShowCart }}
+      value={{
+        state,
+        orderSuccessful,
+        setOrderSuccessful,
+        products,
+        dispatch,
+        showCart,
+        setShowCart,
+      }}
     >
       {children}
     </AppContext.Provider>

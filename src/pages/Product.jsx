@@ -1,8 +1,40 @@
 import BeforeFooter from "@/components/BeforeFooter";
 import { speaker2 } from "@/components/imports";
 import QuanitityInput from "@/components/QuanitityInput";
+import { api } from "../../convex/_generated/api";
+import { useQuery } from "convex/react";
+import { useParams } from "react-router";
+import Button from "@/components/Button";
+import { useContext } from "react";
+import { AppContext } from "@/AppProvider";
 
 const Product = () => {
+  const { id } = useParams();
+
+  const { dispatch } = useContext(AppContext);
+  function handleAddToCart(product) {
+    const { name, image, price } = product;
+
+    console.log("cart: ", { name, id, image, price });
+    dispatch({
+      type: "ADD_TO_CART",
+      payload: { name, id, image, price },
+    });
+  }
+
+  // Fetch single product
+  const product = useQuery(api.products.getProductById, {
+    productId: id,
+  });
+
+  if (!product)
+    return (
+      <div className="inner-container">
+        <p>Loading product...</p>
+      </div>
+    );
+
+  const images = product.extraImages;
   return (
     <>
       <div className="inner-container">
@@ -12,9 +44,9 @@ const Product = () => {
             }`}
           >
             <img
-              src={speaker2}
-              alt="speaker 1"
-              className="mx-auto object-contain max-h-[385px] scale-[.8]"
+              src={product.image}
+              alt={product.name}
+              className="mx-auto object-contain h-[385px] max-h-[385px] scale-[.8]"
             />
           </div>
 
@@ -22,16 +54,17 @@ const Product = () => {
             <h4 className="over-line   text-primary mb-4">{"NEW product"}</h4>
             {/* {subText && (
                 )} */}
-            <h1 className="mb-8">{"XX59 Headphones"}</h1>
-            <p className="mb-10">
-              {
-                "Enjoy your audio almost anywhere and customize it to your specific tastes with the XX59 headphones. The stylish yet durable versatile wireless headset is a brilliant companion at home or on the move."
-              }
-            </p>
-            <p className="mb-[47px]">$ 4334</p>
+            <h1 className="mb-8">{product.name}</h1>
+            <p className="mb-10">{product.description}</p>
+            <p className="mb-[47px]">$ {product.price}</p>
             <div className="flex">
               <QuanitityInput />
-              <button>ADD TO CART</button>
+              <Button
+                label={"ADD TO CART"}
+                onClick={() => {
+                  handleAddToCart(product);
+                }}
+              />
             </div>
           </div>
         </div>
@@ -40,48 +73,54 @@ const Product = () => {
         <div className="flex justify-between ">
           <div className="basis-[65%] space-y-8">
             <h3>FEATURES</h3>
-            <p>
-              Experience unrivalled stereo sound thanks to innovative acoustic
-              technology. With improved ergonomics designed for full day
-              wearing, these revolutionary earphones have been finely crafted to
-              provide you with the perfect fit, delivering complete comfort all
-              day long while enjoying exceptional noise isolation and truly
-              immersive sound.
-            </p>
-            <p>
-              The YX1 Wireless Earphones features customizable controls for
-              volume, music, calls, and voice assistants built into both
-              earbuds. The new 7-hour battery life can be extended up to 28
-              hours with the charging case, giving you uninterrupted play time.
-              Exquisite craftsmanship with a splash resistant design now
-              available in an all new white and grey color scheme as well as the
-              popular classic black.
-            </p>
+            <p className="opacity-50">{product.features}</p>
           </div>
 
           <div className="space-y-8">
             <h3>in the box</h3>
             <div className="space-y-2">
-              <div className="flex items-center gap-[21px]">
-                <p className="text-primary">2x</p>
-                <p>Earphone unit</p>
-              </div>
-              <div className="flex items-center gap-[21px]">
-                <p className="text-primary">2x</p>
-                <p>Earphone unit</p>
-              </div>
+              {product?.inTheBox?.map((item, index) => (
+                <div className="flex items-center gap-[21px]" key={index}>
+                  <p className="text-primary">1</p>
+                  <p>{item}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
-        <div className="flex items-center gap-[30px] justify-between">
-          <div className="w-1/2 flex flex-col gap-[30px]">
-            <div className="border-8 border-b h-[280px]"></div>
-            <div className="border-8 border-t h-[280px]"></div>
-          </div>
+        {/* related images */}
+        {images.length && (
+          <div className="flex items-center gap-[30px] mt-[150px] justify-between">
+            <div className="w-1/2 flex flex-col gap-[30px]">
+              <div className=" h-[280px]">
+                <img
+                  loading="lazy"
+                  className="object-cover w-full h-full"
+                  src={images[0]}
+                  alt="related image"
+                />
+              </div>
+              <div className=" h-[280px]">
+                <img
+                  loading="lazy"
+                  className="object-cover w-full h-full"
+                  src={images[1]}
+                  alt="related image"
+                />
+              </div>
+            </div>
 
-          <div className="w-1/2 h-[592px] border-4"></div>
-        </div>
+            <div className="w-1/2 h-[592px] ">
+              <img
+                loading="lazy"
+                className="object-cover w-full h-full"
+                src={images[2]}
+                alt="related image"
+              />
+            </div>
+          </div>
+        )}
       </div>
       <BeforeFooter />
     </>

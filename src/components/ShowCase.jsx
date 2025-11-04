@@ -1,7 +1,11 @@
+import { useNavigate } from "react-router";
+import Button from "./Button";
+
 const ShowCase = ({ itemsArray }) => {
+  const navigate = useNavigate();
   return (
     <div className="inner-container">
-      {itemsArray?.map(({ name, description, isNew, image }, index) => (
+      {itemsArray?.map(({ name, _id, description, isNew, imageUrl }, index) => (
         <div className="flex items-center justify-between mb-40" key={index}>
           <div
             className={`bg-offwhite rounded basis-[48%] ${
@@ -9,9 +13,9 @@ const ShowCase = ({ itemsArray }) => {
             }`}
           >
             <img
-              src={image}
+              src={imageUrl}
               alt="speaker 1"
-              className="mx-auto object-contain max-h-[385px] scale-[.8]"
+              className="mx-auto object-contain h-[385px] max-h-[385px] scale-[.8]"
             />
           </div>
 
@@ -21,7 +25,10 @@ const ShowCase = ({ itemsArray }) => {
             )}
             <h1 className="mb-8">{name}</h1>
             <p className="mb-10">{description}</p>
-            <button>See Products</button>
+            <Button
+              onClick={() => navigate(`/product/${_id}`)}
+              label={"See Products"}
+            />
           </div>
         </div>
       ))}

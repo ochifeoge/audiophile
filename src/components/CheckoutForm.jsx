@@ -23,7 +23,7 @@ const Input = ({ name, value, onChange, error, placeholder }) => (
   />
 );
 
-const CheckoutForm = ({ onValidityChange }) => {
+const CheckoutForm = ({ onValidityChange, onFormChange }) => {
   const { state } = useContext(AppContext);
 
   const [billing, setBilling] = useState({ name: "", email: "", phone: "" });
@@ -98,6 +98,20 @@ const CheckoutForm = ({ onValidityChange }) => {
     const isValid = Boolean(basicValid && paymentValid);
     if (typeof onValidityChange === "function") onValidityChange(isValid);
   }, [billing, shipping, selected, eMoneyDetails, onValidityChange]);
+
+  // report current form data to parent whenever it changes
+  useEffect(() => {
+    if (typeof onFormChange === "function") {
+      onFormChange({
+        billing: { ...billing },
+        shipping: { ...shipping },
+        payment:
+          selected === "e-money"
+            ? { method: "e-money", ...eMoneyDetails }
+            : { method: selected },
+      });
+    }
+  }, [billing, shipping, selected, eMoneyDetails, onFormChange]);
 
   return (
     <form onSubmit={handleSubmit} className="p-8">
@@ -245,8 +259,8 @@ const CheckoutForm = ({ onValidityChange }) => {
           </div>
         </div>
       </section>
-      {selected === "e-money" && (
-        <div className="flex flex-wrap gap-4">
+      {selected === "e-money" ? (
+        <div className="flex flex-wrap gap-4 mt-20">
           <div className="flex flex-col" style={{ flexBasis: "48%" }}>
             <FieldLabel label="e-Money Number" error={errors.number} />
             <Input
@@ -269,16 +283,16 @@ const CheckoutForm = ({ onValidityChange }) => {
             />
           </div>
         </div>
+      ) : (
+        <footer className="flex 8 mt-20 justify-between">
+          <div className="h-10 w-10 border "></div>
+          <p className="opacity-50 basis-[90%]">
+            The ‘Cash on Delivery’ option enables you to pay in cash when our
+            delivery courier arrives at your residence. Just make sure your
+            address is correct so that your order will not be cancelled.
+          </p>
+        </footer>
       )}
-
-      <footer className="flex 8 mt- justify-between">
-        <div className="h-10 w-10 border "></div>
-        <p className="opacity-50 basis-[90%]">
-          The ‘Cash on Delivery’ option enables you to pay in cash when our
-          delivery courier arrives at your residence. Just make sure your
-          address is correct so that your order will not be cancelled.
-        </p>
-      </footer>
     </form>
   );
 };

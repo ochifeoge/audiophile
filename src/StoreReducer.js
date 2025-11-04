@@ -2,26 +2,21 @@ export const storeReducer = (state, action) => {
   switch (action.type) {
     case "ADD_TO_CART": {
       const itemExists = state.cart.find(
-        (item) =>
-          item.id === action.payload.id &&
-          (!item.selectedSize ||
-            item.selectedSize === action.payload.selectedSize)
+        (item) => item.id === action.payload.id
       );
 
       if (itemExists) {
-        // If item already exists with same size, increase quantity
+        // If item already exists, increase quantity
         return {
           ...state,
           cart: state.cart.map((item) =>
-            item.id === action.payload.id &&
-            (!item.selectedSize ||
-              item.selectedSize === action.payload.selectedSize)
+            item.id === action.payload.id
               ? { ...item, qty: item.qty + 1 }
               : item
           ),
         };
       } else {
-        // If item does not exist or has different size, add it with qty: 1
+        // If item does not exist, add it with qty: 1
         return {
           ...state,
           cart: [...state.cart, { ...action.payload, qty: 1 }],

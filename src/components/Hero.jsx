@@ -1,5 +1,3 @@
-import { heroImg } from "./imports";
-
 const Hero = () => {
   return (
     <div className=" bg-[#0E0E0E] h-[80dvh] ">
@@ -13,11 +11,11 @@ const Hero = () => {
           </p>
           <button>See Products</button>
         </div>
-        <div className="basis-[48%] h-full  ">
+        <div className="basis-[48%] h-full  bg-radial from-offwhite/20   to-[#0E0E0E] to-70%">
           <img
-            src={heroImg}
+            src={`/headphone1.png`}
             alt="hero image"
-            className="object-cover rounded-full h-full"
+            className="object-cover mx-auto rounded-full  h-full"
           />
         </div>
       </div>

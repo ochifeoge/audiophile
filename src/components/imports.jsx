@@ -7,7 +7,7 @@ export const speaker = "/speaker.png";
 export const speakerBg = "./SpeakerBg.png";
 
 export const earbud = "./earbud.png";
-export const person = "./person.png";
+export const person = "/person.png";
 
 export const speaker1 = "./speaker1.png";
 export const speaker2 = "./speaker2.png";
